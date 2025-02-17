@@ -1,29 +1,19 @@
-import { CurrencyPipe } from '@angular/common';
-import { Component,Input, input } from '@angular/core';
+import { Component, computed, inject} from '@angular/core';
+import { InvestmentService } from '../investment.service';
 
 @Component({
   selector: 'app-investment-result',
-  standalone:true,
-  imports: [CurrencyPipe],
+  standalone:false,
   templateUrl: './investment-result.component.html',
   styleUrl: './investment-result.component.css'
 })
 export class InvestmentResultComponent {
-  //when using signal
-  results = input<{
-    year: number;
-    interest: number;
-    valueEndOfYear: number;
-    annualInvestment: number;
-    totalInterest: number;
-    totalAmountInvested: number;
-  }[]>();
-//  @Input() results?:{
-//   year: number;
-//   interest: number;
-//   valueEndOfYear: number;
-//   annualInvestment: number;
-//   totalInterest: number;
-//   totalAmountInvested: number;
-//  }[];
+  private InvestmentService = inject(InvestmentService);
+
+  // get results(){
+  //   return this.InvestmentService.resultsData;
+  // }
+  results = computed(() => this.InvestmentService.resultsData());
+
+  // results = this.InvestmentService.resultsData.asReadonly(); //readOnly will only provide readonly access.
 }
